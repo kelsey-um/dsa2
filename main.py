@@ -37,7 +37,7 @@ def createSets():
     while len(setZ) < r: # loop until length of setZ is equal to r
         num = random.randint(-3000, 3000)
         
-        if num not in setY: # to check for duplicates
+        if num not in setZ: # to check for duplicates
             setZ.append(num)
             
     print("Set Z contains", len(setZ),"integers.\n")
@@ -53,7 +53,6 @@ def createSets():
 
 #TODO: possibly rename class according to tree
 #TODO: search tree
-
 class Node:
     
     def __init__(self, value = None):
@@ -63,42 +62,42 @@ class Node:
         
     def insert(self, value , info):
         
-        if not self.value: #to handle root node
+        if not self.value: #to handle root bstTree
             info['nodes'] += 1
             self.value = value
             return
         
-        if value < self.value: #goes to left of node
+        if value < self.value: #goes to left of bstTree
             
             info['comparisons'] += 1
             
-            if self.left: #there is already a node on the left
+            if self.left: #there is already a bstTree on the left
                 self.left.insert(value, info)
                 return
             info['nodes'] += 1
-            self.left = Node(value) #creating new node
+            self.left = Node(value) #creating new bstTree
            
             
-        if value > self.value: # goes to right of node
+        if value > self.value: # goes to right of bstTree
             
             info['comparisons'] += 1
             
-            if self.right: #there is already a node on the left
+            if self.right: #there is already a bstTree on the left
                     self.right.insert(value, info)
                     return
             info['nodes'] += 1
-            self.right = Node(value) #creating new node
+            self.right = Node(value) #creating new bstTree
             
-    def height(self, node = None):
+    def height(self, bstTree = None):
         
-        if node is None: #when at edge of tree
+        if bstTree is None: #when at edge of tree
             return 0
     
         #checking height both children
-        leftNode = self.height(node.left)
-        rightNode = self.height(node.right)
+        leftNode = self.height(bstTree.left)
+        rightNode = self.height(bstTree.right)
 
-        #max height is returned, add one to account for current node
+        #max height is returned, add one to account for current bstTree
         return max(leftNode, rightNode)+1
     
     def delete(self, value, info):
@@ -119,11 +118,11 @@ class Node:
             return self
         
         else:
-            if self.right is None: #check if node has child on right
+            if self.right is None: #check if bstTree has child on right
                 info['nodes'] -= 1
                 return self.left
             
-            if self.left is None: #check if node has child on left
+            if self.left is None: #check if bstTree has child on left
                 info['nodes'] -= 1
                 return self.right
             
@@ -131,8 +130,8 @@ class Node:
             while largeNode.left: # keeps iterating through all left children
                 largeNode = largeNode.left
 
-            self.value = largeNode.value #set current node to smallest value in right subtree
-            self.right = self.right.delete(largeNode.value, info) #deleting the node that was moved
+            self.value = largeNode.value #set current bstTree to smallest value in right subtree
+            self.right = self.right.delete(largeNode.value, info) #deleting the bstTree that was moved
     
             return self
 
@@ -140,16 +139,17 @@ class Node:
     
         #base case
         if(self.value == value):
+            # print(value,",", sep='')
             info["numbersFound"] += 1
             return self
         
-        # value is greater than node's value
+        # value is greater than bstTree's value
         if self.right is not None:
             if value > self.value:
                 info['comparisons'] += 1
                 self.right.search(value, info)
             
-        # value is less than node's value
+        # value is less than bstTree's value
         if self.left is not None:
             if value < self.value:
                 info['comparisons'] += 1
@@ -158,13 +158,13 @@ class Node:
 
     def preorder(self, vals): #preorder traversal
         
-        if self.value is not None: #getting value of current node
+        if self.value is not None: #getting value of current bstTree
             vals.append(self.value)
             
-        if self.left is not None: #recursion through left node
+        if self.left is not None: #recursion through left bstTree
             self.left.preorder(vals)
             
-        if self.right is not None: #recursion through right node
+        if self.right is not None: #recursion through right bstTree
             self.right.preorder(vals)
             
         return vals
@@ -180,15 +180,14 @@ bstTreeInfo = { # holds info about tree
 
 print("Inserting set X")      
 
-node = Node() #root node
+bstTree = Node()
 
 nums = [12, 6, 18, 19, 21, 11, 3, 5, 4, 24]
 
-for num in nums:
-    node.insert(num, bstTreeInfo)    
-bstTreeInfo['height'] = node.height(node) #calculating tree height
+for num in setX:
+    bstTree.insert(num, bstTreeInfo)    
+bstTreeInfo['height'] = bstTree.height(bstTree) #calculating tree height
 
-# print(node.preorder([]))
 print("BST: height is ", bstTreeInfo['height'], 
       ", #nodes is ", bstTreeInfo['nodes'], 
       ", #comparisons is ", bstTreeInfo['comparisons'],".\n", sep='')
@@ -199,13 +198,11 @@ bstTreeInfo['comparisons'] = 0
 
 nums = [2, 6, 20]
 
-for num in nums:
-    # if num in set(setX):
-    node.delete(num, bstTreeInfo)
+for num in setY:
+    bstTree.delete(num, bstTreeInfo)
     
-bstTreeInfo['height'] = node.height(node)  
+bstTreeInfo['height'] = bstTree.height(bstTree)  
 
-# print(node.preorder([]))
     
 print("BST: height is ", bstTreeInfo['height'],
       ", #nodes is ", bstTreeInfo['nodes'], 
@@ -217,12 +214,11 @@ bstTreeInfo['comparisons'] = 0
 
 nums = [4,2,12,18]
 
-for num in nums:
-    node.search(num, bstTreeInfo)
+for num in setZ:
+    bstTree.search(num, bstTreeInfo)
     
 print("BST: ",
       bstTreeInfo['comparisons']," total comparisons required, ",
       bstTreeInfo['numbersFound']," numbers found, ",
-      (len(nums)-bstTreeInfo['numbersFound'])," numbers not found",
+      (len(setZ)-bstTreeInfo['numbersFound'])," numbers not found",
       sep='')
-
