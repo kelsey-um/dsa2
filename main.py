@@ -136,7 +136,25 @@ class Node:
     
             return self
 
-    def search(self, value, info):
+    def search(self,value, info):
+    
+        #base case
+        if(self.value == value):
+            info["numbersFound"] += 1
+            return self
+        
+        # value is greater than node's value
+        if self.right is not None:
+            if value > self.value:
+                info['comparisons'] += 1
+                self.right.search(value, info)
+            
+        # value is less than node's value
+        if self.left is not None:
+            if value < self.value:
+                info['comparisons'] += 1
+                self.left.search(value, info)
+            
 
     def preorder(self, vals): #preorder traversal
         
@@ -166,12 +184,14 @@ node = Node() #root node
 
 nums = [12, 6, 18, 19, 21, 11, 3, 5, 4, 24]
 
-for num in setX:
+for num in nums:
     node.insert(num, bstTreeInfo)    
 bstTreeInfo['height'] = node.height(node) #calculating tree height
 
 # print(node.preorder([]))
-print("BST: height is ", bstTreeInfo['height'], ", #nodes is ", bstTreeInfo['nodes'], ", #comparisons is ", bstTreeInfo['comparisons'],".\n", sep='')
+print("BST: height is ", bstTreeInfo['height'], 
+      ", #nodes is ", bstTreeInfo['nodes'], 
+      ", #comparisons is ", bstTreeInfo['comparisons'],".\n", sep='')
 
 print("Deleting set Y")
 
@@ -179,7 +199,7 @@ bstTreeInfo['comparisons'] = 0
 
 nums = [2, 6, 20]
 
-for num in setY:
+for num in nums:
     # if num in set(setX):
     node.delete(num, bstTreeInfo)
     
@@ -187,9 +207,22 @@ bstTreeInfo['height'] = node.height(node)
 
 # print(node.preorder([]))
     
-print("BST: height is ", bstTreeInfo['height'], ", #nodes is ", bstTreeInfo['nodes'], ", #comparisons is ", bstTreeInfo['comparisons'],".", sep='')
+print("BST: height is ", bstTreeInfo['height'],
+      ", #nodes is ", bstTreeInfo['nodes'], 
+      ", #comparisons is ", bstTreeInfo['comparisons'],"\n", sep='')
+
+print("Searching set Z")
 
 bstTreeInfo['comparisons'] = 0
 
-for num in setZ:
+nums = [4,2,12,18]
+
+for num in nums:
     node.search(num, bstTreeInfo)
+    
+print("BST: ",
+      bstTreeInfo['comparisons']," total comparisons required, ",
+      bstTreeInfo['numbersFound']," numbers found, ",
+      (len(nums)-bstTreeInfo['numbersFound'])," numbers not found",
+      sep='')
+
