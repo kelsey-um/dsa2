@@ -97,7 +97,6 @@ class Tree:
                 treeInfo['comparisons'] += 1
                 self.search(node.left,value)
    
-
     def minimumNode(self, root):
         if root is None or root.left is None:
             return root
@@ -109,5 +108,3 @@ class Tree:
             return 0
         
         return node.height
-
-

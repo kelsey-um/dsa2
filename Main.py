@@ -3,7 +3,8 @@ import BST
 import AVL
 import RBT
 
-setX, setY, setZ, xyIntersection, xzIntersection = createSets() #creating sets
+#creating sets
+setX, setY, setZ, xyIntersection, xzIntersection = createSets() 
 
 #declaring all trees and nodes
 bstTree = BST.Tree()
@@ -43,6 +44,7 @@ print("RBT: ", RBT.treeInfo['rotations']," rotations req."
     ", #nodes is ", RBT.treeInfo['nodes'], 
     ", #comparisons is ", RBT.treeInfo['comparisons'],".\n", sep='')
 
+
 #deleting set y from trees
 print("Deleting set Y")
 
@@ -56,6 +58,7 @@ RBT.treeInfo['rotations'] = 0
 for num in setY:
     bstNode = bstTree.delete(bstNode, num)
     avlNode = avlTree.delete(avlNode, num) 
+    rbtTree.delete(num)
 
 BST.treeInfo['height'] = bstNode.height #setting height
 AVL.treeInfo['height'] = avlNode.height
@@ -79,14 +82,16 @@ print("RBT: ", RBT.treeInfo['rotations']," rotations req."
 
 print("Searching set Z")
 
-BST.treeInfo['comparisons'] = 0 #setting comparisons back to 0
+#setting comparisons back to 0
+BST.treeInfo['comparisons'] = 0 
 AVL.treeInfo['comparisons'] = 0
+RBT.treeInfo['comparisons'] = 0
 
 for num in setZ:
-    bstTree.search(bstNode,num)
+    bstTree.search(bstNode, num)
     avlTree.search(avlNode, num)
-    
-    
+    rbtTree.search(num)
+   
 #printing results
 print("BST: ",
     BST.treeInfo['comparisons']," total comparisons required, ",
@@ -105,6 +110,3 @@ print("RBT: ",
     RBT.treeInfo['numbersFound']," numbers found, ",
     (len(setZ)-RBT.treeInfo['numbersFound'])," numbers not found\n",
     sep='')
-
-
-

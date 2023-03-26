@@ -54,54 +54,6 @@ class Tree:
 
         return node
     
-    def getHeight(self, node): #to calculate height
-        
-        if not node: #if node is not set
-            return 0
-        
-        return node.height
-    
-    def getBalance(self, node):
-
-        if not node:
-            return 0
-        
-        return self.getHeight(node.left) - self.getHeight(node.right)
-    
-    def rotateLeft(self, node):
-        
-        treeInfo['rotations'] += 1
-        
-        nodeX = node.right #setting nodeX as the node's right child
-        nodeY = nodeX.left #setting nodeY as nodeX's left child
-       
-        #promoting nodeX to root of subtree and demoting node to left child of nodeX
-        nodeX.left = node #node is set as nodeX's left child
-        node.right = nodeY #right child of node is set to nodeY
-
-        #recalculating heights accordingly
-        node.height = 1 + max(self.getHeight(node.left), self.getHeight(node.right))
-        nodeX.height = 1 + max(self.getHeight(nodeX.left), self.getHeight(nodeX.right))
-
-        return nodeX #the new root of subtree
-    
-    def rotateRight(self, node):
-        
-        treeInfo['rotations'] += 1
-        
-        nodeX = node.left #setting nodeX as the node's left child
-        nodeY = nodeX.right #setting nodeY as nodeX's right child
-
-        #promoting nodeX to root of subtree and demoting node to right child of nodeX
-        nodeX.right = node #node is set as nodeX's right child
-        node.left = nodeY #right child of node is set to nodeY
-
-        #recalculating heights accordingly
-        node.height = 1 + max(self.getHeight(node.left), self.getHeight(node.right))
-        nodeX.height = 1 + max(self.getHeight(nodeX.left), self.getHeight(nodeX.right))
-
-        return nodeX #the new root of subtree
-
     def delete(self, node, value):
 
         if not node:
@@ -165,12 +117,6 @@ class Tree:
 
         return node
     
-    def minimumNode(self, root):
-        if root is None or root.left is None:
-            return root
-        
-        return self.minimumNode(root.left)
-    
     def search(self, node, value):
     
         #when node is found
@@ -189,3 +135,57 @@ class Tree:
             if value < node.value:
                 treeInfo['comparisons'] += 1
                 self.search(node.left,value)
+
+    def getHeight(self, node): #to calculate height
+        
+        if not node: #if node is not set
+            return 0
+        
+        return node.height
+    
+    def getBalance(self, node):
+
+        if not node:
+            return 0
+        
+        return self.getHeight(node.left) - self.getHeight(node.right)
+    
+    def rotateLeft(self, node):
+        
+        treeInfo['rotations'] += 1
+        
+        nodeX = node.right #setting nodeX as the node's right child
+        nodeY = nodeX.left #setting nodeY as nodeX's left child
+       
+        #promoting nodeX to root of subtree and demoting node to left child of nodeX
+        nodeX.left = node #node is set as nodeX's left child
+        node.right = nodeY #right child of node is set to nodeY
+
+        #recalculating heights accordingly
+        node.height = 1 + max(self.getHeight(node.left), self.getHeight(node.right))
+        nodeX.height = 1 + max(self.getHeight(nodeX.left), self.getHeight(nodeX.right))
+
+        return nodeX #the new root of subtree
+    
+    def rotateRight(self, node):
+        
+        treeInfo['rotations'] += 1
+        
+        nodeX = node.left #setting nodeX as the node's left child
+        nodeY = nodeX.right #setting nodeY as nodeX's right child
+
+        #promoting nodeX to root of subtree and demoting node to right child of nodeX
+        nodeX.right = node #node is set as nodeX's right child
+        node.left = nodeY #right child of node is set to nodeY
+
+        #recalculating heights accordingly
+        node.height = 1 + max(self.getHeight(node.left), self.getHeight(node.right))
+        nodeX.height = 1 + max(self.getHeight(nodeX.left), self.getHeight(nodeX.right))
+
+        return nodeX #the new root of subtree
+
+    def minimumNode(self, root): #get minimum node
+        if root is None or root.left is None:
+            return root
+        
+        return self.minimumNode(root.left)
