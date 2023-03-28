@@ -51,24 +51,27 @@ class Tree:
             node.right = self.delete(node.right, value)
         
         else:
-            if node.left is None: #check if node has child on left
+            #case 1 - node only has right child
+            if node.left is None:
                 treeInfo['nodes'] -= 1
                 nodeX = node.right
                 node = None
 
                 return nodeX
             
-            elif node.right is None: #check if node has child on left
+            #case 2 - node only has left child
+            elif node.right is None:
                 treeInfo['nodes'] -= 1
                 nodeX = node.left
                 node = None
 
                 return nodeX
             
-            #both children are not none therefore find node with min value in the right subtree
-            nodeX = self.minimumNode(node.right) #get the minimum value from right
-            node.value = nodeX.value #value of current node is replaced
-            node.right = self.delete(node.right ,nodeX.value) #delete node that was moved up
+            #case 3 - node has both children
+            else:
+                nodeX = self.minimumNode(node.right) #get the minimum value from right
+                node.value = nodeX.value #value of current node is replaced
+                node.right = self.delete(node.right ,nodeX.value) #delete node that was moved up
 
         if node is None:
             return node

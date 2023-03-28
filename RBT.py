@@ -74,24 +74,25 @@ class Tree:
                 
                 if uncleNode.colour == Red: #check if parent node and uncle node are both red
                     
-                    #case 1 - modify accordingly
+                    #case 1 - parent and uncle are red
                     newNode.parent.colour = Black
                     uncleNode.colour = Black 
-                    newNode.parent.parent.colour = Red
+                    newNode.parent.parent.colour = Red #grandparent
                     newNode = newNode.parent.parent
 
                 else:
 
                     if newNode == newNode.parent.right:
                         
-                        #case 2 - modify accordingly
+                        #case 2 - parent is red, uncle is black, new node is a right child
                         newNode = newNode.parent 
                         self.rotateLeft(newNode)
                     
-                    #case 3 - modify accordingly
+                    #case 3 - parent is red, uncle is black, new node is left child
                     newNode.parent.colour = Black
                     newNode.parent.parent.colour = Red 
                     self.rotateRight(newNode.parent.parent)
+                    
             else: #same as before but with right and left swapped
                 
                 uncleNode = newNode.parent.parent.left 

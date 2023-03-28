@@ -31,8 +31,6 @@ class Tree:
             treeInfo['comparisons'] += 1 
             node.right = self.insert(node.right, value)
 
-        node.height = 1 + max(self.getHeight(node.left), self.getHeight(node.right))
-
         #calculate balance factor
         balance = self.getBalance(node)
 
@@ -46,11 +44,13 @@ class Tree:
 
         if balance < -1: #height of right subtree is greater than of left subtree
             if value > node.right.value: #if value is less than the rights value 
-                return self.rotateLeft(node)
-            
+                node = self.rotateLeft(node)
+                
             else:
                 node.right = self.rotateRight(node.right)
-                return self.rotateLeft(node)
+                node = self.rotateLeft(node)
+ 
+        node.height = 1 + max(self.getHeight(node.left), self.getHeight(node.right))
 
         return node
     
@@ -98,19 +98,19 @@ class Tree:
 
         if balance > 1: #height of left subtree is greater than of right subtree
             if self.getBalance(node.left) >= 0: #checking is left subtree is balanced
-                return self.rotateRight(node)
-            
+                node = self.rotateRight(node)
+                
             else:
                 node.left = self.rotateLeft(node.left)
-                return self.rotateRight(node)
+                node = self.rotateRight(node)
 
         if balance < -1: #height of right subtree is greater than of left subtree
             if self.getBalance(node.right) <= 0: #checking if right subtree is balanced
-                return self.rotateLeft(node)
+                node = self.rotateLeft(node)
             
             else:
                 node.right = self.rotateRight(node.right)
-                return self.rotateLeft(node)
+                node = self.rotateLeft(node)
         
         #updating height
         node.height = 1 + max(self.getHeight(node.left), self.getHeight(node.right))
